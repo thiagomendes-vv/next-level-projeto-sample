@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.mendes.nextlevelprojeto.model.Cliente;
 import br.com.mendes.nextlevelprojeto.repository.ClienteRepository;
+import br.com.mendes.nextlevelprojeto.service.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
@@ -22,29 +23,26 @@ public class ClienteService {
 		return clientes;
 	}
 
-	public void addCliente(Cliente cliente) {
-		repo.save(cliente);
+	public Cliente addCliente(Cliente cliente) {
+		return repo.save(cliente);
 	}
 
 	public Cliente findById(Integer codigo) {
 		Cliente cliente = repo.findById(codigo).orElse(null);
+		if (cliente == null) {
+			throw new ObjectNotFoundException("Cliente não encontrado!");
+		}		
 		return cliente;
 	}
 
 	public void update(Integer codigo, Cliente cliente) {
 		Cliente clienteAtualizado = this.findById(codigo);
-		if (clienteAtualizado == null) {
-			throw new RuntimeException("Cliente não encontrado!");
-		}
 		clienteAtualizado.setNome(cliente.getNome());
 		repo.save(clienteAtualizado);
 	}
 
 	public void delete(Integer codigo) {
-		Cliente clienteApagar = this.findById(codigo);		
-		if (clienteApagar == null) {
-			throw new RuntimeException("Cliente não encontrado!");
-		}
+		this.findById(codigo);		
 		repo.deleteById(codigo);
 	}
 	
