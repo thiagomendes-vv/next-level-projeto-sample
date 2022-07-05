@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class Cliente {
@@ -11,16 +15,25 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
+	
+	@NotNull 
+	@NotEmpty 
+	@Size(min = 5, max = 50)
 	private String nome;
+		
+	@NotNull
+	@NotEmpty
+	private String cpf;
 	
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(Integer codigo, String nome) {
+	public Cliente(Integer codigo, String nome, String cpf) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
+		this.cpf = cpf;
 	}
 
 	public Integer getCodigo() {
@@ -37,6 +50,14 @@ public class Cliente {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@Override

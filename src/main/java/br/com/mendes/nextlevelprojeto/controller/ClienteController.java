@@ -3,6 +3,8 @@ package br.com.mendes.nextlevelprojeto.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +43,7 @@ public class ClienteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> addCliente(@RequestBody Cliente cliente) {
+	public ResponseEntity<Void> addCliente(@Valid @RequestBody Cliente cliente) {
 		Cliente obj = service.addCliente(cliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getCodigo()).toUri();
 		return ResponseEntity.created(uri).build();		

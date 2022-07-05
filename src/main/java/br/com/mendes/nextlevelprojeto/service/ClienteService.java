@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.mendes.nextlevelprojeto.model.Cliente;
 import br.com.mendes.nextlevelprojeto.repository.ClienteRepository;
+import br.com.mendes.nextlevelprojeto.service.exception.ObjectFoundException;
 import br.com.mendes.nextlevelprojeto.service.exception.ObjectNotFoundException;
 
 @Service
@@ -24,10 +25,16 @@ public class ClienteService {
 	}
 
 	public Cliente addCliente(Cliente cliente) {
+		Cliente obj = repo.findByCpf(cliente.getCpf());
+		if (obj != null) {
+			throw new ObjectFoundException("Cliente já cadastrado!");
+		}
+		
 		return repo.save(cliente);
 	}
 
 	public Cliente findById(Integer codigo) {
+		// select campos from cliente where id = :codigo
 		Cliente cliente = repo.findById(codigo).orElse(null);
 		if (cliente == null) {
 			throw new ObjectNotFoundException("Cliente não encontrado!");
