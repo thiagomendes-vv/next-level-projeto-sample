@@ -8,4 +8,6 @@ import br.com.mendes.nextlevelprojeto.model.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
+	public Cliente findByCpf(String cpf);
+
 }
