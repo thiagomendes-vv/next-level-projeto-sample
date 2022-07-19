@@ -1,36 +1,38 @@
 package br.com.mendes.nextlevelprojeto.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-import br.com.mendes.nextlevelprojeto.dto.ClienteDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Cliente {
-
+public class Empresa {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
-	private String nome;
-	private String cpf;
+	private String razaoSocial;
+	private Integer raizCnpj;
 	
-	public Cliente() {
-		super();
+//	@JsonIgnore
+	@OneToMany(mappedBy = "id.empresa", fetch = FetchType.LAZY)
+	private List<Filial> filiais = new ArrayList<>();
+	
+	public Empresa() {
 	}
-
-	public Cliente(Integer codigo, String nome, String cpf) {
+	
+	public Empresa(Integer codigo, String razaoSocial, Integer raizCnpj) {
 		super();
 		this.codigo = codigo;
-		this.nome = nome;
-		this.cpf = cpf;
-	}
-	
-	public Cliente(ClienteDto clienteDto) {
-		this.codigo = null;
-		this.nome = clienteDto.getNome();
-		this.cpf = clienteDto.getCpf();
+		this.razaoSocial = razaoSocial;
+		this.raizCnpj = raizCnpj;
 	}
 
 	public Integer getCodigo() {
@@ -41,20 +43,24 @@ public class Cliente {
 		this.codigo = codigo;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getRazaoSocial() {
+		return razaoSocial;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+
+	public Integer getRaizCNPJ() {
+		return raizCnpj;
+	}
+
+	public void setRaizCNPJ(Integer raizCnpj) {
+		this.raizCnpj = raizCnpj;
 	}
 	
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public List<Filial> getFiliais() {
+		return filiais;
 	}
 
 	@Override
@@ -73,7 +79,7 @@ public class Cliente {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		Empresa other = (Empresa) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
@@ -81,5 +87,5 @@ public class Cliente {
 			return false;
 		return true;
 	}
-		
+
 }
