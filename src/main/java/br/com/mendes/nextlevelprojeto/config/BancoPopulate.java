@@ -5,15 +5,19 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import br.com.mendes.nextlevelprojeto.model.Cliente;
 import br.com.mendes.nextlevelprojeto.model.Empresa;
 import br.com.mendes.nextlevelprojeto.model.Filial;
 import br.com.mendes.nextlevelprojeto.model.FilialPK;
+import br.com.mendes.nextlevelprojeto.model.TipoDeAtividade;
 import br.com.mendes.nextlevelprojeto.repository.ClienteRepository;
 import br.com.mendes.nextlevelprojeto.repository.EmpresaRepository;
 import br.com.mendes.nextlevelprojeto.repository.FilialRepository;
+import br.com.mendes.nextlevelprojeto.repository.TipoDeAtividadeRepository;
 
+@Profile("dev")
 @Configuration
 public class BancoPopulate implements CommandLineRunner {
 
@@ -25,6 +29,9 @@ public class BancoPopulate implements CommandLineRunner {
 	
 	@Autowired
 	private FilialRepository filialRepository;
+
+	@Autowired
+	private TipoDeAtividadeRepository tipoDeAtividadeRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -48,9 +55,29 @@ public class BancoPopulate implements CommandLineRunner {
 		Empresa empresa4 = new Empresa(null, "Extra", 33041263);
 		empresaRepository.saveAll(Arrays.asList(empresa1, empresa2, empresa3, empresa4));
 		
+		TipoDeAtividade tipoDeAtividadeCD = new TipoDeAtividade("D", "Centro de Distribuição");
+		TipoDeAtividade tipoDeAtividadeLoja = new TipoDeAtividade("L", "Loja");
+		TipoDeAtividade tipoDeAtividadePosto = new TipoDeAtividade("T", "Posto de Montagem");
+		TipoDeAtividade tipoDeAtividadeAdmin = new TipoDeAtividade("A", "Administrativo");
+		
+		tipoDeAtividadeRepository.saveAll(
+				Arrays.asList(
+						tipoDeAtividadeCD,
+						tipoDeAtividadeLoja,
+						tipoDeAtividadePosto,
+						tipoDeAtividadeAdmin
+						)
+				);
+
 		FilialPK filial1pk = new FilialPK(empresa1, 1);
 		Filial filial1 = new Filial(filial1pk, 330412601);
+		filial1.addTipoDeAtividade(tipoDeAtividadeAdmin);
+		filial1.addTipoDeAtividade(tipoDeAtividadeCD);
+		
 		Filial filial2 = new Filial(new FilialPK(empresa1, 2), 330412602);
+		filial2.addTipoDeAtividade(tipoDeAtividadeLoja);
+		filial2.addTipoDeAtividade(tipoDeAtividadeAdmin);
+		
 		filialRepository.saveAll(Arrays.asList(filial1, filial2));
 		
 		int fimDoCpf = 0;
