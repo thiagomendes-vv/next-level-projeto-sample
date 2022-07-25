@@ -26,8 +26,8 @@ public class Filial {
 	@JoinTable(
 			name = "PONTO_DE_ATIVIDADE",
 			joinColumns = {
-					@JoinColumn(name = "CODIGO_FILIAL"),
-					@JoinColumn(name = "CODIGO_EMPRESA")
+					@JoinColumn(name = "CODIGO_EMPRESA", referencedColumnName = "CODIGO_EMPRESA"),
+					@JoinColumn(name = "CODIGO_FILIAL", referencedColumnName = "CODIGO_FILIAL")
 			}, 
 			inverseJoinColumns = @JoinColumn(name = "CODIGO_TIPO_ATIVIDADE")
 			)

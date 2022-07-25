@@ -10,11 +10,15 @@ import org.springframework.context.annotation.Profile;
 import br.com.mendes.nextlevelprojeto.model.Cliente;
 import br.com.mendes.nextlevelprojeto.model.Empresa;
 import br.com.mendes.nextlevelprojeto.model.Filial;
+import br.com.mendes.nextlevelprojeto.model.FilialGenerator;
 import br.com.mendes.nextlevelprojeto.model.FilialPK;
+import br.com.mendes.nextlevelprojeto.model.RotaDeEntrega;
 import br.com.mendes.nextlevelprojeto.model.TipoDeAtividade;
 import br.com.mendes.nextlevelprojeto.repository.ClienteRepository;
 import br.com.mendes.nextlevelprojeto.repository.EmpresaRepository;
+import br.com.mendes.nextlevelprojeto.repository.FilialGeneratorRepository;
 import br.com.mendes.nextlevelprojeto.repository.FilialRepository;
+import br.com.mendes.nextlevelprojeto.repository.RotaDeEntregaRepository;
 import br.com.mendes.nextlevelprojeto.repository.TipoDeAtividadeRepository;
 
 @Profile("dev")
@@ -32,6 +36,12 @@ public class BancoPopulate implements CommandLineRunner {
 
 	@Autowired
 	private TipoDeAtividadeRepository tipoDeAtividadeRepository;
+	
+	@Autowired
+	private RotaDeEntregaRepository rotaDeEntregaRepository;
+	
+	@Autowired
+	private FilialGeneratorRepository filialGeneratorRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -80,6 +90,10 @@ public class BancoPopulate implements CommandLineRunner {
 		
 		filialRepository.saveAll(Arrays.asList(filial1, filial2));
 		
+	    RotaDeEntrega rotaDeEntrega1 = new RotaDeEntrega(null, filial1);
+	    RotaDeEntrega rotaDeEntrega2 = new RotaDeEntrega(null, filial2);
+	    rotaDeEntregaRepository.saveAll(Arrays.asList(rotaDeEntrega1, rotaDeEntrega2));
+		
 		int fimDoCpf = 0;
 		for (int i = 1; i < 50; i++) {
 			clienteRepository.save(
@@ -87,6 +101,13 @@ public class BancoPopulate implements CommandLineRunner {
 							"123456789" + (fimDoCpf + i)));
 		}
 		
+		FilialGenerator fg1 = new FilialGenerator(empresa1.getCodigo(), null, 123456789);
+		FilialGenerator fg2 = new FilialGenerator(empresa2.getCodigo(), null, 123456778);
+		FilialGenerator fg3 = new FilialGenerator(empresa1.getCodigo(), null, 55214225);
+		FilialGenerator fg4 = new FilialGenerator(empresa4.getCodigo(), null, 999888777);
+		filialGeneratorRepository.saveAll(Arrays.asList(
+				fg1, fg2, fg3, fg4
+				));
 	}
 
 }

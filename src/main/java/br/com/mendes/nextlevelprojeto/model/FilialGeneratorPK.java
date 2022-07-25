@@ -2,43 +2,28 @@ package br.com.mendes.nextlevelprojeto.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Embeddable
-public class FilialPK implements Serializable {
+public class FilialGeneratorPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "CODIGO_EMPRESA")
-	private Empresa empresa;
-	
-	@Column(name = "CODIGO_FILIAL")
+	private Integer empresa;
 	private Integer codigo;
 	
-	public FilialPK() {
+	public FilialGeneratorPK() {
 
 	}
 	
-	public FilialPK(Empresa empresa, Integer codigo) {
+	public FilialGeneratorPK(Integer empresa, Integer codigo) {
 		super();
 		this.empresa = empresa;
 		this.codigo = codigo;
 	}
 
-	public Empresa getEmpresa() {
+	public Integer getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(Integer empresa) {
 		this.empresa = empresa;
 	}
 
@@ -67,7 +52,7 @@ public class FilialPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FilialPK other = (FilialPK) obj;
+		FilialGeneratorPK other = (FilialGeneratorPK) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
