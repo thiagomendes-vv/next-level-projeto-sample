@@ -4,10 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
-import com.sun.istack.NotNull;
+import br.com.mendes.nextlevelprojeto.dto.ClienteDto;
 
 @Entity
 public class Cliente {
@@ -15,14 +13,7 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
-	
-	@NotNull 
-	@NotEmpty 
-	@Size(min = 5, max = 50)
 	private String nome;
-		
-	@NotNull
-	@NotEmpty
 	private String cpf;
 	
 	public Cliente() {
@@ -34,6 +25,12 @@ public class Cliente {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.cpf = cpf;
+	}
+	
+	public Cliente(ClienteDto clienteDto) {
+		this.codigo = null;
+		this.nome = clienteDto.getNome();
+		this.cpf = clienteDto.getCpf();
 	}
 
 	public Integer getCodigo() {
