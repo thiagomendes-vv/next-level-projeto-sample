@@ -2,42 +2,29 @@ package br.com.mendes.nextlevelprojeto.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Embeddable
-public class FilialPK implements Serializable {
+public class RotaDeEntregaPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "CODIGO_EMPRESA")
-	private Empresa empresa;
-	
-	@Column(name = "CODIGO_FILIAL")
+
+	private String siglaDoEstado;
 	private Integer codigo;
 	
-	public FilialPK() {
-
-	}
+	public RotaDeEntregaPK() {
 	
-	public FilialPK(Empresa empresa, Integer codigo) {
+	}
+
+	public RotaDeEntregaPK(String siglaDoEstado, Integer codigo) {
 		super();
-		this.empresa = empresa;
+		this.siglaDoEstado = siglaDoEstado;
 		this.codigo = codigo;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
+	public String getSiglaDoEstado() {
+		return siglaDoEstado;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setSiglaDoEstado(String siglaDoEstado) {
+		this.siglaDoEstado = siglaDoEstado;
 	}
 
 	public Integer getCodigo() {
@@ -53,7 +40,7 @@ public class FilialPK implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
+		result = prime * result + ((siglaDoEstado == null) ? 0 : siglaDoEstado.hashCode());
 		return result;
 	}
 
@@ -65,18 +52,18 @@ public class FilialPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FilialPK other = (FilialPK) obj;
+		RotaDeEntregaPK other = (RotaDeEntregaPK) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
+		if (siglaDoEstado == null) {
+			if (other.siglaDoEstado != null)
 				return false;
-		} else if (!empresa.equals(other.empresa))
+		} else if (!siglaDoEstado.equals(other.siglaDoEstado))
 			return false;
 		return true;
 	}
-		
+	
 }
