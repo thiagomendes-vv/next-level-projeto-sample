@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 
 import br.com.mendes.nextlevelprojeto.model.Cliente;
 import br.com.mendes.nextlevelprojeto.model.Empresa;
+import br.com.mendes.nextlevelprojeto.model.Estado;
 import br.com.mendes.nextlevelprojeto.model.Filial;
 import br.com.mendes.nextlevelprojeto.model.FilialGenerator;
 import br.com.mendes.nextlevelprojeto.model.FilialPK;
@@ -16,6 +17,7 @@ import br.com.mendes.nextlevelprojeto.model.RotaDeEntrega;
 import br.com.mendes.nextlevelprojeto.model.TipoDeAtividade;
 import br.com.mendes.nextlevelprojeto.repository.ClienteRepository;
 import br.com.mendes.nextlevelprojeto.repository.EmpresaRepository;
+import br.com.mendes.nextlevelprojeto.repository.EstadoRepository;
 import br.com.mendes.nextlevelprojeto.repository.FilialGeneratorRepository;
 import br.com.mendes.nextlevelprojeto.repository.FilialRepository;
 import br.com.mendes.nextlevelprojeto.repository.RotaDeEntregaRepository;
@@ -42,6 +44,9 @@ public class BancoPopulate implements CommandLineRunner {
 	
 	@Autowired
 	private FilialGeneratorRepository filialGeneratorRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -90,11 +95,7 @@ public class BancoPopulate implements CommandLineRunner {
 		
 		filialRepository.saveAll(Arrays.asList(filial1, filial2));
 		
-	    RotaDeEntrega rotaDeEntrega1 = new RotaDeEntrega(null, filial1);
-	    RotaDeEntrega rotaDeEntrega2 = new RotaDeEntrega(null, filial2);
-	    rotaDeEntregaRepository.saveAll(Arrays.asList(rotaDeEntrega1, rotaDeEntrega2));
-		
-		int fimDoCpf = 0;
+	    int fimDoCpf = 0;
 		for (int i = 1; i < 50; i++) {
 			clienteRepository.save(
 					new Cliente(null, "Cliente " + i, 
@@ -108,6 +109,17 @@ public class BancoPopulate implements CommandLineRunner {
 		filialGeneratorRepository.saveAll(Arrays.asList(
 				fg1, fg2, fg3, fg4
 				));
+		
+		Estado estado1 = new Estado("SP", "São Paulo");
+		Estado estado2 = new Estado("RJ", "Rio de Janeiro");
+		Estado estado3 = new Estado("BA", "Bahia");
+		estadoRepository.saveAll(Arrays.asList(estado1, estado2, estado3));
+		
+		RotaDeEntrega rota1 = new RotaDeEntrega(estado1.getSigla(), null, "Rota de Sao Paulo", "A", filial1, 2);
+		RotaDeEntrega rota2 = new RotaDeEntrega(estado1.getSigla(), null, "Rota de Sao Paulo 2", "I", filial1, 0);
+		rotaDeEntregaRepository.saveAll(Arrays.asList(rota1, rota2));
+				
+				
 	}
 
 }

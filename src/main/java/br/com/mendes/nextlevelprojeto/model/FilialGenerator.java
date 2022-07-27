@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @IdClass(value = FilialGeneratorPK.class)
 public class FilialGenerator {
